@@ -1,0 +1,83 @@
+﻿@model BeFit.Models.TrainingSession
+
+@{
+    ViewData["Title"] = "Szczegóły sesji";
+}
+
+<h1>Szczegóły sesji treningowej</h1>
+
+<div>
+    <h4>Sesja z @Model.StartTime.ToString("dd.MM.yyyy HH:mm")</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+        <dd class="col-sm-9">
+            @Model.StartTime.ToString("dd.MM.yyyy HH:mm")
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.EndTime)
+        </dt>
+        <dd class="col-sm-9">
+            @Model.EndTime.ToString("dd.MM.yyyy HH:mm")
+        </dd>
+        <dt class="col-sm-3">
+            Czas trwania
+        </dt>
+        <dd class="col-sm-9">
+            @{
+                var duration = Model.EndTime - Model.StartTime;
+                @duration.TotalMinutes.ToString("F0") <span>min</span>
+            }
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Notes)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Notes)
+        </dd>
+    </dl>
+</div>
+
+@if (Model.CompletedExercises != null && Model.CompletedExercises.Any())
+{
+        <h4>Wykonane ćwiczenia:</h4>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Ćwiczenie</th>
+                        <th>Serie</th>
+                        <th>Powtórzenia</th>
+                        <th>Obciążenie</th>
+                        <th>Notatki</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var exercise in Model.CompletedExercises)
+                {
+                            <tr>
+                                <td>@exercise.ExerciseType.Name</td>
+                                <td>@exercise.Sets</td>
+                                <td>@exercise.Reps</td>
+                                <td>@exercise.Weight kg</td>
+                                <td>@exercise.Notes</td>
+                            </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+}
+else
+{
+        <div class="alert alert-info">
+            <p>W tej sesji nie zostały jeszcze dodane żadne ćwiczenia.</p>
+        </div>
+}
+
+<div>
+    <a asp-controller="CompletedExercises" asp-action="Create" asp-route-sessionId="@Model.Id" class="btn btn-success">Dodaj ćwiczenie</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edytuj</a>
+    <a asp-action="Index" class="btn btn-secondary">Powrót do listy</a>
+</div>

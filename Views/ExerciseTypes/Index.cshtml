@@ -1,0 +1,40 @@
+﻿@model IEnumerable<BeFit.Models.ExerciseType>
+
+@{
+    ViewData["Title"] = "Lista ćwiczeń";
+}
+
+<h1>Katalog ćwiczeń</h1>
+
+@if (User.IsInRole("Administrator"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Dodaj</a>
+    </p>
+}
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                        @if (!string.IsNullOrEmpty(item.Category))
+                        {
+                            <h6 class="card-subtitle mb-2 text-muted">Kategoria: @item.Category</h6>
+                        }
+                    <p class="card-text">@item.Description</p>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Szczegóły</a>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edytuj</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Usuń</a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

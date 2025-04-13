@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Strona główna";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Witaj w BeFit</h1>
+    <p class="lead">Śledź postępy razem z nami!</p>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Katalog ćwiczeń</h5>
+                <p class="card-text">Przeglądaj listę ćwiczeń i znajdź inspirację dla swojego treningu!</p>
+                <a asp-controller="ExerciseTypes" asp-action="Index" class="btn btn-primary">Lista ćwiczeń</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Sesje treningowe</h5>
+                <p class="card-text">Zapisuj swoje sesje treningowe i śledź swoje postępy!</p>
+                @if (User.Identity.IsAuthenticated)
+                {
+                        <a asp-controller="TrainingSessions" asp-action="Index" class="btn btn-primary">Moje treningi</a>
+                }
+                else
+                {
+                        <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary">Zaloguj się</a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Statystyki</h5>
+                <p class="card-text">Analizuj swoje treningi!</p>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Stats" asp-action="Index" class="btn btn-primary">Moje statystyki</a>
+                }
+                else
+                {
+                        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Zarejestruj się</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (!User.Identity.IsAuthenticated)
+{
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Zarejestruj się już dziś!</h5>
+                        <p class="card-text">Dołącz do BeFit by skorzystać ze wszystkoch funkcji!</p>
+                        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-success">Utwórz konto</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+}

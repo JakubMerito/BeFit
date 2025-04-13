@@ -1,0 +1,46 @@
+﻿@model IEnumerable<BeFit.Models.TrainingSession>
+
+@{
+    ViewData["Title"] = "Sesje treningowe";
+}
+
+<h1>Moje sesje treningowe</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Dodaj nową sesję</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Data rozpoczęcia</th>
+            <th>Godzina rozpoczęcia</th>
+            <th>Data zakończenia</th>
+            <th>Godzina zakończenia</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @item.StartTime.ToShortDateString()
+                </td>
+                <td>
+                    @item.StartTime.ToShortTimeString()
+                </td>
+                <td>
+                    @item.EndTime.ToShortDateString()
+                </td>
+                <td>
+                    @item.EndTime.ToShortTimeString()
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edytuj</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Szczegóły</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Usuń</a> |
+                    <a asp-controller="CompletedExercises" asp-action="Create" asp-route-sessionId="@item.Id" class="btn btn-sm btn-success">Dodaj ćwiczenie</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
